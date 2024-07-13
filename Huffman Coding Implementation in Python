@@ -1,0 +1,55 @@
+from heapq import heappush, heappop, heapify
+
+class Node:
+    def __init__(self, char, freq):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
+
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def build_huffman_tree(characters, frequencies):
+    pq = []
+    for i in range(len(characters)):
+        heappush(pq, Node(characters[i], frequencies[i]))
+
+    while len(pq) > 1:
+        left = heappop(pq)
+        right = heappop(pq)
+        merged = Node(None, left.freq + right.freq)
+        merged.left = left
+        merged.right = right
+        heappush(pq, merged)
+
+    return pq[0]
+
+def generate_huffman_codes(root, code, huffman_codes):
+    if root is None:
+        return
+
+    if root.char is not None:
+        huffman_codes.append((root.char, code))
+        return
+
+    generate_huffman_codes(root.left, code + "0", huffman_codes)
+    generate_huffman_codes(root.right, code + "1", huffman_codes)
+
+def huffman_encoding(characters, frequencies):
+    root = build_huffman_tree(characters, frequencies)
+    huffman_codes = []
+    generate_huffman_codes(root, "", huffman_codes)
+    return huffman_codes
+
+# Test Case 1
+characters1 = ['a', 'b', 'c', 'd']
+frequencies1 = [5, 9, 12, 13]
+output1 = huffman_encoding(characters1, frequencies1)
+print("Test Case 1 Output:", output1)
+
+# Test Case 2
+characters2 = ['f', 'e', 'd', 'c', 'b', 'a']
+frequencies2 = [5, 9, 12, 13, 16, 45]
+output2 = huffman_encoding(characters2, frequencies2)
+print("Test Case 2 Output:", output2)
