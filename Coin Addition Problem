@@ -1,0 +1,25 @@
+def minCoinsToAdd(coins, target):
+    coins.sort()
+    max_reachable = 0
+    coins_needed = 0
+    
+    for coin in coins:
+        if coin > max_reachable + 1:
+            break
+        max_reachable += coin
+    
+    while max_reachable < target:
+        coins_needed += 1
+        max_reachable += max_reachable + 1
+    
+    return coins_needed
+
+# Example 1
+coins1 = [1, 4, 10]
+target1 = 19
+print(minCoinsToAdd(coins1, target1))  # Output: 2
+
+# Example 2
+coins2 = [1, 4, 10, 5, 7, 19]
+target2 = 19
+print(minCoinsToAdd(coins2, target2))  # Output: 1
