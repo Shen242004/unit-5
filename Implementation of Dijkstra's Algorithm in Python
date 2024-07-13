@@ -1,0 +1,49 @@
+import sys
+
+def dijkstra(graph, source):
+    n = len(graph)
+    dist = [sys.maxsize] * n
+    dist[source] = 0
+    visited = [False] * n
+
+    for _ in range(n):
+        u = min_distance(dist, visited)
+        visited[u] = True
+
+        for v in range(n):
+            if not visited[v] and graph[u][v] != float('inf') and dist[u] + graph[u][v] < dist[v]:
+                dist[v] = dist[u] + graph[u][v]
+
+    return dist
+
+def min_distance(dist, visited):
+    min_dist = sys.maxsize
+    min_index = -1
+
+    for i in range(len(dist)):
+        if not visited[i] and dist[i] < min_dist:
+            min_dist = dist[i]
+            min_index = i
+
+    return min_index
+
+# Test Case 1
+n = 5
+graph1 = [[0, 10, 3, float('inf'), float('inf')],
+          [float('inf'), 0, 1, 2, float('inf')],
+          [float('inf'), 4, 0, 8, 2],
+          [float('inf'), float('inf'), float('inf'), 0, 7],
+          [float('inf'), float('inf'), float('inf'), 9, 0]]
+source1 = 0
+output1 = dijkstra(graph1, source1)
+print(output1)  # Output: [0, 7, 3, 9, 5]
+
+# Test Case 2
+n = 4
+graph2 = [[0, 5, float('inf'), 10],
+          [float('inf'), 0, 3, float('inf')],
+          [float('inf'), float('inf'), 0, 1],
+          [float('inf'), float('inf'), float('inf'), 0]]
+source2 = 0
+output2 = dijkstra(graph2, source2)
+print(output2)  # Output: [0, 5, 8, 9]
