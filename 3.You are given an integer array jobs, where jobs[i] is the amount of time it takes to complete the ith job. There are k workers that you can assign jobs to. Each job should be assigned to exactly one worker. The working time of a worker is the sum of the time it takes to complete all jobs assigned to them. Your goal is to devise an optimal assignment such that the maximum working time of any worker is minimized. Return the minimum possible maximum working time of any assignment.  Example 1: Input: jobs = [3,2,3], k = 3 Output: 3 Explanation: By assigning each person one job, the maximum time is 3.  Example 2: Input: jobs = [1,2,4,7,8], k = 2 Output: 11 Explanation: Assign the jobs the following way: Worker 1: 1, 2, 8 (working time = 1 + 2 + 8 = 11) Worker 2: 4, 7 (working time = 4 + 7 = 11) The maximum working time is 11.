@@ -1,0 +1,40 @@
+def min_max_working_time(jobs, k):
+    def is_valid(limit):
+        workers = [0] * k
+        if backtrack(0, jobs, workers, limit):
+            return True
+        return False
+
+    def backtrack(idx, jobs, workers, limit):
+        if idx >= len(jobs):
+            return True
+        job = jobs[idx]
+        for i in range(k):
+            if workers[i] + job <= limit:
+                workers[i] += job
+                if backtrack(idx + 1, jobs, workers, limit):
+                    return True
+                workers[i] -= job
+                if workers[i] == 0 or workers[i] + job == limit:
+                    break
+        return False
+
+    jobs.sort(reverse=True)
+    left, right = max(jobs), sum(jobs)
+    while left < right:
+        mid = left + (right - left) // 2
+        if is_valid(mid):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+
+# Example 1
+jobs1 = [3, 2, 3]
+k1 = 3
+print(min_max_working_time(jobs1, k1))  # Output: 3
+
+# Example 2
+jobs2 = [1, 2, 4, 7, 8]
+k2 = 2
+print(min_max_working_time(jobs2, k2))  # Output: 11
