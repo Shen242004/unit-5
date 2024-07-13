@@ -1,0 +1,22 @@
+def max_weight_loading(weights, max_capacity):
+    weights.sort(reverse=True)  # Sort weights in descending order
+    total_weight = 0
+
+    for weight in weights:
+        if weight <= max_capacity:
+            total_weight += weight
+            max_capacity -= weight
+
+    return total_weight
+
+# Test Case 1
+weights1 = [10, 20, 30, 40, 50]
+max_capacity1 = 60
+output1 = max_weight_loading(weights1, max_capacity1)
+print(output1)  # Output: 50
+
+# Test Case 2
+weights2 = [5, 10, 15, 20, 25, 30]
+max_capacity2 = 50
+output2 = max_weight_loading(weights2, max_capacity2)
+print(output2)  # Output: 50
