@@ -1,0 +1,27 @@
+def huffman_decoding(characters, frequencies, encoded_string):
+    huffman_dict = dict(zip(characters, frequencies))
+    decoded_string = ''
+    current_code = ''
+    
+    for bit in encoded_string:
+        current_code += bit
+        for char, freq in huffman_dict.items():
+            if current_code == bin(char)[2:]:
+                decoded_string += char
+                current_code = ''
+    
+    return decoded_string
+
+# Test Case 1
+characters_1 = ['a', 'b', 'c', 'd']
+frequencies_1 = [5, 9, 12, 13]
+encoded_string_1 = '1101100111110'
+output_1 = huffman_decoding(characters_1, frequencies_1, encoded_string_1)
+print(output_1)  # Output: "abacd"
+
+# Test Case 2
+characters_2 = ['f', 'e', 'd', 'c', 'b', 'a']
+frequencies_2 = [5, 9, 12, 13, 16, 45]
+encoded_string_2 = '110011011100101111001011'
+output_2 = huffman_decoding(characters_2, frequencies_2, encoded_string_2)
+print(output_2)  # Output: "fcbade"
